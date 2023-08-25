@@ -26,9 +26,10 @@ export class Field {
     }
 
     get position() {
+        const { width, height } = this.sprite;
         return {
-            x: this.col * this.sprite.width,
-            y: this.row * this.sprite.height
+            x: this.col * width,
+            y: this.row * height
         };
     }
 

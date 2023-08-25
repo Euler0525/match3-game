@@ -16,6 +16,8 @@ export class CombinationManager {
                     const row = checkingField.row + position.row;
                     const col = checkingField.col + position.col;
                     const comparingField = this.board.getField(row, col);
+
+                    // 判断是否能够消除
                     if (comparingField && comparingField.tile.color === checkingField.tile.color) {
                         matches.push(comparingField.tile);
                     }

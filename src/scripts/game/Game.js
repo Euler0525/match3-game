@@ -18,6 +18,8 @@ export class Game {
 
         // 增加计分功能
         this.score = 0;
+        this.startTime = Date.now();
+        this.restartTimeout = null;
     }
 
     removeStartMatches() {
@@ -101,7 +103,7 @@ export class Game {
             .then(() => this.addTiles())
             .then(() => {
                 this.onFallDownOver();
-                this.updataScore();  // 更新分数
+                this.updateScore();  // 更新分数
             });
     }
 
@@ -132,7 +134,7 @@ export class Game {
                     }
                 });
             });
-        }); ``
+        });
     }
 
     processFallDown() {
@@ -186,8 +188,19 @@ export class Game {
         this.selectedTile.field.select();
     }
 
-    updataScore() {
+    updateScore() {
         console.log("Socre:", this.score)
-        alert(this.score)
     }
+
+    // checkRestartCondition() {
+    //     const currentTime = Date.now();
+    //     const elapsedTime = (currentTime - this.startTime)
+
+    //     if (elapsedTime >= 120 && this.score < 2000) {
+    //         console.log("Restarting game...");
+    //         return -1;
+    //     }
+
+    //     return 0;
+    // }
 }

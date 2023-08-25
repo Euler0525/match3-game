@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+
 import { gsap } from "gsap";
 import { PixiPlugin } from "gsap/PixiPlugin";
 import { Loader } from "./Loader";
@@ -10,7 +11,8 @@ class Application {
 
         this.config = config;
 
-        this.app = new PIXI.Application({resizeTo: window});
+
+        this.app = new PIXI.Application({ resizeTo: window });
         document.body.appendChild(this.app.view);
 
         this.loader = new Loader(this.app.loader, this.config);

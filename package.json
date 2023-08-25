@@ -1,7 +1,8 @@
 {
   "name": "match3",
+  "author": "LYb",
   "version": "1.0.0",
-  "description": "",
+  "description": "ECE Ⅱ",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack/prod.js ",
