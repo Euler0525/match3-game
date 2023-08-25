@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { App } from "../system/App";
 import { Board } from "./Board";
 import { CombinationManager } from "./CombinationManager";
-    
+
 export class Game {
     constructor() {
         this.container = new PIXI.Container();
@@ -15,12 +15,15 @@ export class Game {
 
         this.combinationManager = new CombinationManager(this.board);
         this.removeStartMatches();
+
+        // 增加计分功能
+        this.score = 0;
     }
 
     removeStartMatches() {
         let matches = this.combinationManager.getMatches();
 
-        while(matches.length) {
+        while (matches.length) {
             this.removeMatches(matches);
 
             const fields = this.board.fields.filter(field => field.tile === null);
@@ -87,6 +90,7 @@ export class Game {
         matches.forEach(match => {
             match.forEach(tile => {
                 tile.remove();
+                this.score += 10;  // 每移除一个加10分
             });
         });
     }
@@ -95,7 +99,10 @@ export class Game {
         this.removeMatches(matches);
         this.processFallDown()
             .then(() => this.addTiles())
-            .then(() => this.onFallDownOver());
+            .then(() => {
+                this.onFallDownOver();
+                this.updataScore();  // 更新分数
+            });
     }
 
     onFallDownOver() {
@@ -125,7 +132,7 @@ export class Game {
                     }
                 });
             });
-        });``
+        }); ``
     }
 
     processFallDown() {
@@ -136,7 +143,7 @@ export class Game {
             for (let row = this.board.rows - 1; row >= 0; row--) {
                 for (let col = this.board.cols - 1; col >= 0; col--) {
                     const field = this.board.getField(row, col);
-    
+
                     if (!field.tile) {
                         ++started;
                         this.fallDownTo(field).then(() => {
@@ -177,5 +184,10 @@ export class Game {
     selectTile(tile) {
         this.selectedTile = tile;
         this.selectedTile.field.select();
+    }
+
+    updataScore() {
+        console.log("Socre:", this.score)
+        alert(this.score)
     }
 }
