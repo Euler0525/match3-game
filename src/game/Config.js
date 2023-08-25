@@ -2,7 +2,7 @@ import { Game } from "./Game";
 
 
 export class Config {
-    static loader = Config.massiveRequire(require["context"]('./../../sprites/', true, /\.(mp3|png|jpe?g)$/));
+    static loader = Config.massiveRequire(require["context"]('./../../assets/', true, /\.(mp3|png|jpe?g)$/));
     static startScene = Game;
     static tilesColors = ['blue', 'green', 'orange', 'red', 'pink', 'yellow'];
     static board = {
