@@ -43,7 +43,16 @@ export class Board {
     }
 
     createTile(field) {
-        const color = App.config.tilesColors[this.randomNumber(0, App.config.tilesColors.length - 1)];
+        const random = Math.random();
+        let colorIndex;
+
+        if (random < 0.99) {
+            colorIndex = this.randomNumber(0, App.config.tilesColors.length - 2);
+        } else {
+            colorIndex = App.config.tilesColors.length - 1;
+        }
+
+        const color = App.config.tilesColors[colorIndex];
         const tile = new Tile(color);
 
         field.setTile(tile);
@@ -56,6 +65,7 @@ export class Board {
 
         return tile;
     }
+
 
     getField(row, col) {
         return this.fields.find(field => field.row === row && field.col === col);
