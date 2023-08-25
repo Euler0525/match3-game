@@ -20,6 +20,12 @@ export class Game {
         this.score = 0;
         this.startTime = Date.now();
         this.restartTimeout = null;
+
+        // 增加关卡功能
+        this.currentLevel = 1;
+        this.levelScores = [];
+        this.levelScores.push(0)
+        this.maxLevel = 100;
     }
 
     removeStartMatches() {
@@ -67,7 +73,6 @@ export class Game {
     swap(selectedTile, tile, reverse) {
         this.disabled = true;
         selectedTile.sprite.zIndex = 2;
-
         selectedTile.moveTo(tile.field.position, 0.2);
 
         this.clearSelection();
@@ -188,19 +193,77 @@ export class Game {
         this.selectedTile.field.select();
     }
 
-    updateScore() {
-        console.log("Socre:", this.score)
+
+    // 关卡处理
+    processMatches(matches) {
+        this.removeMatches(matches);
+        this.processFallDown()
+            .then(() => this.addTiles())
+            .then(() => {
+                this.onFallDownOver();
+                this.updateScoreLevel();
+
+                // 检查是否到达下一关
+                const levelThreshold = this.currentLevel * 500;
+                if (this.score >= levelThreshold - 30 && this.currentLevel < this.maxLevel) {
+                    ++this.currentLevel;
+                    this.score -= levelThreshold;  // 分数清零
+                }
+            });
     }
 
-    // checkRestartCondition() {
-    //     const currentTime = Date.now();
-    //     const elapsedTime = (currentTime - this.startTime)
 
-    //     if (elapsedTime >= 120 && this.score < 2000) {
-    //         console.log("Restarting game...");
-    //         return -1;
-    //     }
+    // 计分处理
+    updateScoreLevel() {
+        this.displayScore(this.score)
+        this.displayLevel(this.currentLevel)
+    }
 
-    //     return 0;
-    // }
+    displayScore(score) {
+        const existingScoreDisplay = document.getElementById("scoreDisplay");
+
+        if (existingScoreDisplay) {
+            existingScoreDisplay.parentNode.removeChild(existingScoreDisplay);
+        }
+
+        const scoreDisplay = document.createElement("div");
+        scoreDisplay.id = "scoreDisplay";
+        scoreDisplay.textContent = "当前得分: " + score + " ";
+
+        scoreDisplay.style.position = "fixed";
+        scoreDisplay.style.bottom = "10px";
+        scoreDisplay.style.right = "10px";
+        scoreDisplay.style.fontFamily = "Arial";
+        scoreDisplay.style.fontSize = "36pt"; // 修改字号为48pt
+        document.body.appendChild(scoreDisplay);
+    }
+
+    displayLevel(level) {
+        const existingLevelDisplay = document.getElementById("levelDisplay");
+
+        if (existingLevelDisplay) {
+            existingLevelDisplay.parentNode.removeChild(existingLevelDisplay);
+        }
+
+        const levelDisplay = document.createElement("div");
+        levelDisplay.id = "levelDisplay";
+        levelDisplay.style.position = "fixed";
+        levelDisplay.style.top = "10px";
+        levelDisplay.style.left = "10px";
+        levelDisplay.style.fontFamily = "Arial";
+        levelDisplay.style.fontSize = "48pt"; // 修改字号为48pt
+
+        const levelText = document.createElement("div");
+        levelText.textContent = "第 " + this.currentLevel + " 关";
+        levelDisplay.appendChild(levelText);
+
+        const targetScoreText = document.createElement("div");
+        targetScoreText.style.fontSize = "23pt"; // 设置目标分数的字号为24pt
+        targetScoreText.textContent = "目标分数：" + this.currentLevel * 500;
+        levelDisplay.appendChild(targetScoreText);
+
+        document.body.appendChild(levelDisplay);
+    }
+
+
 }
