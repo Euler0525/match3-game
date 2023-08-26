@@ -1,5 +1,9 @@
 # 构建三消游戏
 
+> 因`node_modules`文件过大无法上传至icode123，
+>
+> 完整项目请到[https://github.com/Euler0525/match3-game](https://github.com/Euler0525/match3-game)查看
+
 [TOC]
 
 ## 游戏设计
