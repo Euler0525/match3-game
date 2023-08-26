@@ -213,7 +213,7 @@ export class Game {
 
     // 计分处理
     updateScoreLevel() {
-        const remainingTime = Math.max(this.levelTimeLimit - (Date.now() - this.startTime), 0)
+        const remainingTime = Math.max(this.levelTimeLimit * this.currentLevel - (Date.now() - this.startTime), 0)
         this.displayScore(this.score)
         this.displayLevel(this.currentLevel)
         this.displayTime(remainingTime)
@@ -235,7 +235,7 @@ export class Game {
         scoreDisplay.style.bottom = "10px";
         scoreDisplay.style.right = "10px";
         scoreDisplay.style.fontFamily = "Arial";
-        scoreDisplay.style.fontSize = "36pt"; // 修改字号为48pt
+        scoreDisplay.style.fontSize = "36pt";
         document.body.appendChild(scoreDisplay);
     }
 
@@ -253,15 +253,15 @@ export class Game {
         levelDisplay.style.top = "10px";
         levelDisplay.style.left = "10px";
         levelDisplay.style.fontFamily = "Arial";
-        levelDisplay.style.fontSize = "48pt"; // 修改字号为48pt
+        levelDisplay.style.fontSize = "48pt";
 
         const levelText = document.createElement("div");
         levelText.textContent = "第 " + this.currentLevel + " 关";
         levelDisplay.appendChild(levelText);
 
         const targetScoreText = document.createElement("div");
-        targetScoreText.style.fontSize = "23pt"; // 设置目标分数的字号为24pt
-        targetScoreText.textContent = "目标分数：" + this.currentLevel * 500;
+        targetScoreText.style.fontSize = "24pt";
+        targetScoreText.textContent = "目标分数: " + this.currentLevel * 500;
         levelDisplay.appendChild(targetScoreText);
 
         document.body.appendChild(levelDisplay);
@@ -287,7 +287,7 @@ export class Game {
     }
 
     updateTime() {
-        const remainingTime = Math.max(this.levelTimeLimit - (Date.now() - this.startTime), 0);
+        const remainingTime = Math.max(this.levelTimeLimit * this.currentLevel - (Date.now() - this.startTime), 0);
         const timeDisplay = document.getElementById("timeDisplay");
         if (timeDisplay) {
             timeDisplay.textContent = "剩余时间：" + Math.ceil(remainingTime / 1000) + "秒";
@@ -297,7 +297,7 @@ export class Game {
     startTimer() {
         this.timer = setInterval(() => {
             this.updateTime();
-            if (this.score < this.currentLevel * 500 && Date.now() - this.startTime > this.levelTimeLimit) {
+            if (this.score < this.currentLevel * 500 && Date.now() - this.startTime > this.levelTimeLimit * this.currentLevel) {
                 // 如果在时间限制内未达到目标分数，则将分数重置为零
                 this.score = 0;
                 this.startTime = Date.now(); // 重置当前关卡的开始时间
