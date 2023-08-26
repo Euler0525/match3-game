@@ -27,7 +27,7 @@ export class Game {
         this.levelScores.push(0)
         this.maxLevel = 100;
 
-        //TODO 增加时间限制功能
+        // 增加时间限制功能
         this.levelTimeLimit = 2 * 60 * 1000
         this.timer = null;
         this.startTimer()

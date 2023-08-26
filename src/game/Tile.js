@@ -3,7 +3,7 @@ import { App } from "../system/App";
 
 export class Tile {
     constructor(color) {
-        this.color = color;
+        this.color = color;  // 初始化颜色属性
         this.sprite = App.sprite(this.color);
         this.sprite.anchor.set(0.5);
     }
@@ -46,6 +46,6 @@ export class Tile {
     }
 
     fallDownTo(position, delay) {
-        return this.moveTo(position, 0.5, delay, "bounce.out");
+        return this.moveTo(position, 0.5, delay, "bounce.out");  // 下落到指定位置
     }
 }

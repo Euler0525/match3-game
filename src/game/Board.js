@@ -85,7 +85,7 @@ export class Board {
         tile1.field = tile2Field;
     }
 
-    //>>>TODO 面板位置居中
+    // 面板位置居中
     ajustPosition() {
         this.fieldSize = this.fields[0].sprite.width;
         this.width = this.cols * this.fieldSize;

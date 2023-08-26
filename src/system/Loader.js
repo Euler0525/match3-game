@@ -5,6 +5,7 @@ export class Loader {
         this.resources = {};
     }
 
+    // 预加载游戏资源
     preload() {
         for (const asset of this.config.loader) {
             let key = asset.key.substr(asset.key.lastIndexOf('/') + 1);

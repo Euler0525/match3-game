@@ -25,7 +25,7 @@ export class CombinationManager {
                     }
                 });
 
-                //TODO 添加特殊图块功能
+                // 添加特殊图块功能
                 let tmpSpecialMatches = specialMatches;
                 if (tmpSpecialMatches.length === rule.length + 1 && tmpSpecialMatches[0].tile.color == 'black') {
                     for (let i = 0; i < tmpSpecialMatches.length; ++i) {

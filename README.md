@@ -17,38 +17,43 @@
 
 ## 项目结构
 
-```
+本项目基于Pixi库和webpack模块打包器构建，使用Nodejs运行。
+
+```shell
 .
 ├── README.md
-├── assets
+├── assets             # 本游戏所需的图片资源
 │   ├── ...
 ├── img
-│   └── special.gif
-├── index.html
-├── node_modules
+│   ├── origin.png     # 游戏初始界面
+│   ├── play.png       # 游戏过程界面
+│   └── special.gif    # 特殊图块测试
+├── index.html         # HTML页面
+├── node_modules       # 第三方模块
 │   ├──...
 ├── package-lock.json
-├── package.json
+├── package.json       # 项目元数据和依赖
+├── result.mp4         # 游戏体验视频
 ├── src
-│   ├── game
-│   │   ├── Board.js
-│   │   ├── CombinationManager.js
-│   │   ├── Config.js
-│   │   ├── Field.js
-│   │   ├── Game.js
-│   │   └── Tile.js
-│   ├── index.js
+│   ├── game           # 游戏源代码
+│   │   ├── Board.js   # 棋盘
+│   │   ├── CombinationManager.js  # 匹配和消除处理
+│   │   ├── Config.js  # 配置加载
+│   │   ├── Field.js   # 方块区域
+│   │   ├── Game.js    # 游戏功能实现
+│   │   └── Tile.js    # 图块处理
+│   ├── index.js       # 入口文件
 │   └── system
-│       ├── App.js
-│       └── Loader.js
-└── webpack
+│       ├── App.js     # 游戏运行
+│       └── Loader.js  # 预加载
+└── webpack            # 模块打包
     ├── base.js
     └── prod.js
 ```
 
 ## 游戏说明
 
-进入程序目录中，执行`npm`
+进入程序目录中，执行`npm start`
 
 ```shell
 ...\match3-game> npm start
@@ -82,3 +87,11 @@ webpack 5.88.2 compiled successfully in 2396 ms
 由于特殊图块出现的概率极小，为展示其功能，我修改了他出现的概率用作功能测试，现已改回$1\%$，测试结果如下：
 
 ![](./img/special.gif)
+
+> 参考资料：
+>
+> [https://github.com/Zainking/LearningPixi](https://github.com/Zainking/LearningPixi)
+>
+> [https://gamedev.land/pixi_project_template/](https://gamedev.land/pixi_project_template/)
+>
+> [https://gamedev.land/match3/](https://gamedev.land/match3/)

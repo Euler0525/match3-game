@@ -4,14 +4,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-  mode: "development",
-  devtool: "eval-source-map",
-  entry: "./src/index.js",
+  mode: "development",  // 开发模式
+  devtool: "eval-source-map",  // 便于调试
+  entry: "./src/index.js",  // 入口文件
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /node_modules/,  // 排除第三方模块
         use: {
           loader: "babel-loader"
         }
@@ -24,14 +24,14 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({
-      root: path.resolve(__dirname, "../")
+      root: path.resolve(__dirname, "../")  // 清理输出目录
     }),
     new webpack.DefinePlugin({
       CANVAS_RENDERER: JSON.stringify(true),
       WEBGL_RENDERER: JSON.stringify(true)
     }),
     new HtmlWebpackPlugin({
-      template: "./index.html"
+      template: "./index.html"  // 模版生成的输出文件
     })
   ]
 };

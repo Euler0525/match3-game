@@ -1,10 +1,10 @@
 const merge = require("webpack-merge");
 const path = require("path");
 const base = require("./base");
-const TerserPlugin = require("terser-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");  // 用于压缩JavaScript代码
 
 module.exports = merge.merge(base, {
-  mode: "production",
+  mode: "production",  // 设定为生产模式
   output: {
     filename: "bundle.min.js"
   },
