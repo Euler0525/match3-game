@@ -26,6 +26,11 @@ export class Game {
         this.levelScores = [];
         this.levelScores.push(0)
         this.maxLevel = 100;
+
+        //TODO 增加时间限制功能
+        this.levelTimeLimit = 2 * 60 * 1000
+        this.timer = null;
+        this.startTimer()
     }
 
     removeStartMatches() {
@@ -100,16 +105,6 @@ export class Game {
                 this.score += 10;  // 每移除一个加10分
             });
         });
-    }
-
-    processMatches(matches) {
-        this.removeMatches(matches);
-        this.processFallDown()
-            .then(() => this.addTiles())
-            .then(() => {
-                this.onFallDownOver();
-                this.updateScore();  // 更新分数
-            });
     }
 
     onFallDownOver() {
@@ -193,7 +188,6 @@ export class Game {
         this.selectedTile.field.select();
     }
 
-
     // 关卡处理
     processMatches(matches) {
         this.removeMatches(matches);
@@ -207,7 +201,11 @@ export class Game {
                 const levelThreshold = this.currentLevel * 500;
                 if (this.score >= levelThreshold - 30 && this.currentLevel < this.maxLevel) {
                     ++this.currentLevel;
-                    this.score -= levelThreshold;  // 分数清零
+                    this.score -= levelThreshold;  // 分数部分累计到下一关
+                    this.startTime = Date.now()
+                } else if (this.score < levelThreshold && Date.now() - this.startTime > this.levelTimeLimit * this.currentLevel) {
+                    this.score = 0;  // 分数清零
+                    this.startTime = Date.now();  // 重新开始计时
                 }
             });
     }
@@ -215,8 +213,11 @@ export class Game {
 
     // 计分处理
     updateScoreLevel() {
+        const remainingTime = Math.max(this.levelTimeLimit - (Date.now() - this.startTime), 0)
         this.displayScore(this.score)
         this.displayLevel(this.currentLevel)
+        this.displayTime(remainingTime)
+        this.updateTime()
     }
 
     displayScore(score) {
@@ -238,6 +239,7 @@ export class Game {
         document.body.appendChild(scoreDisplay);
     }
 
+    // 关卡处理
     displayLevel(level) {
         const existingLevelDisplay = document.getElementById("levelDisplay");
 
@@ -265,5 +267,42 @@ export class Game {
         document.body.appendChild(levelDisplay);
     }
 
+    displayTime(time) {
+        const existingTimeDisplay = document.getElementById("timeDisplay");
 
+        if (existingTimeDisplay) {
+            existingTimeDisplay.parentNode.removeChild(existingTimeDisplay);
+        }
+
+        const timeDisplay = document.createElement("div");
+        timeDisplay.id = "timeDisplay";
+        timeDisplay.style.position = "fixed";
+        timeDisplay.style.top = "10px";
+        timeDisplay.style.right = "10px";
+        timeDisplay.style.fontFamily = "Arial";
+        timeDisplay.style.fontSize = "30pt";
+        timeDisplay.textContent = "剩余时间: " + Math.ceil(time / 1000) + "秒";
+
+        document.body.appendChild(timeDisplay);
+    }
+
+    updateTime() {
+        const remainingTime = Math.max(this.levelTimeLimit - (Date.now() - this.startTime), 0);
+        const timeDisplay = document.getElementById("timeDisplay");
+        if (timeDisplay) {
+            timeDisplay.textContent = "剩余时间：" + Math.ceil(remainingTime / 1000) + "秒";
+        }
+    }
+
+    startTimer() {
+        this.timer = setInterval(() => {
+            this.updateTime();
+            if (this.score < this.currentLevel * 500 && Date.now() - this.startTime > this.levelTimeLimit) {
+                // 如果在时间限制内未达到目标分数，则将分数重置为零
+                this.score = 0;
+                this.startTime = Date.now(); // 重置当前关卡的开始时间
+                this.updateScoreLevel(); // 重置分数后更新分数和关卡显示
+            }
+        }, 1000); // 每秒更新一次时间
+    }
 }
