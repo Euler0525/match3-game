@@ -46,7 +46,7 @@ export class Board {
         const random = Math.random();
         let colorIndex;
 
-        if (random < 0.95) {
+        if (random < 0.99) {
             colorIndex = this.randomNumber(0, App.config.tilesColors.length - 2);
         } else {
             colorIndex = App.config.tilesColors.length - 1;

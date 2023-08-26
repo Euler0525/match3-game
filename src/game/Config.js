@@ -4,7 +4,7 @@ import { Game } from "./Game";
 export class Config {
     static loader = Config.massiveRequire(require["context"]('./../../assets/', true, /\.(png|jpe?g)$/));
     static startScene = Game;
-    static tilesColors = ['blue', 'green', 'orange', 'red', 'pink', 'yellow', 'black'];
+    static tilesColors = ['bull', 'dragon', 'fox', 'koala', 'penguin', 'snake', 'special'];
     static board = {
         rows: 9,
         cols: 9
